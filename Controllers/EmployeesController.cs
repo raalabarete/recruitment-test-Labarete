@@ -16,9 +16,7 @@ namespace InterviewTest.Controllers
         [HttpGet]
         public List<Employee> Get()
         {
-            Regex rg = new Regex(@"^[d-zD-Z]");
             var employees = new List<Employee>();
-            int sumValue = 0;
             var connectionStringBuilder = new SqliteConnectionStringBuilder() { DataSource = "./SqliteDB.db" };
             try {
                 using (var connection = new SqliteConnection(connectionStringBuilder.ConnectionString))
@@ -39,24 +37,13 @@ namespace InterviewTest.Controllers
                         }
                     }
                 }
-                List<string> empName = new List<string>();
-                foreach (Employee employee in employees)
-                {
-                    if (!rg.IsMatch(employee.Name))
-                    {
-                        sumValue += employee.Value;
-                    }
-                }
             }
             catch (SqliteException ex)
             {
                 Console.WriteLine(ex.Message);
             }
            
-            if (sumValue >= 11171)
-                return employees;
-            else
-                return null;
+            return employees;
         }
 
         [HttpPost]
